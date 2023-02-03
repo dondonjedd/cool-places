@@ -1,4 +1,5 @@
 import 'package:cool_places/providers/prov_places.dart';
+import 'package:cool_places/screens/add_place_screen.dart';
 import 'package:cool_places/screens/places_list_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -23,6 +24,9 @@ class MyApp extends StatelessWidget {
                 .colorScheme
                 .copyWith(secondary: Colors.brown[300])),
         home: const PlacesListScreen(),
+        routes: {
+          AddPlaceScreen.routeName: (context) => const AddPlaceScreen(),
+        },
       ),
     );
   }
