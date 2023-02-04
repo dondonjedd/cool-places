@@ -1,12 +1,12 @@
 import 'dart:io';
 
 import 'package:cool_places/helpers/db_helper.dart';
-import 'package:flutter/material.dart';
 
 import '../models/place.dart';
+import 'package:flutter/foundation.dart';
 
 class ProvPlaces with ChangeNotifier {
-  final List<Place> _items = [];
+  List<Place> _items = [];
 
   List<Place> get items {
     return [..._items];
@@ -19,11 +19,23 @@ class ProvPlaces with ChangeNotifier {
         location: null,
         image: image);
     _items.add(newPlace);
-    DBHelper.insert('places', {
+    notifyListeners();
+    DBHelper.insert('user_places', {
       'id': newPlace.id,
       'title': newPlace.title,
       'image': newPlace.image.path
     });
+  }
+
+  Future<void> fetchAndSetPlaces() async {
+    final dataList = await DBHelper.getData('user_places');
+    _items = dataList
+        .map((item) => Place(
+            id: item['id'],
+            title: item['title'],
+            location: null,
+            image: File(item['image'])))
+        .toList();
     notifyListeners();
   }
 }
