@@ -6,7 +6,8 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:location/location.dart';
 
 class LocationInput extends StatefulWidget {
-  const LocationInput({super.key});
+  final Function onSelectLocation;
+  const LocationInput({super.key, required this.onSelectLocation});
 
   @override
   State<LocationInput> createState() => _LocationInputState();
@@ -22,6 +23,7 @@ class _LocationInputState extends State<LocationInput> {
     setState(() {
       _previewImageUrl = staticMapImageUrl;
     });
+    widget.onSelectLocation(LatLng(locData.latitude!, locData.longitude!));
   }
 
   @override
@@ -47,7 +49,15 @@ class _LocationInputState extends State<LocationInput> {
       return;
     }
 
+    final staticMapImageUrl = LocationHelper.generateLocationPreviewImage(
+        latitude: selectedLocation.latitude,
+        longitude: selectedLocation.longitude);
+    setState(() {
+      _previewImageUrl = staticMapImageUrl;
+    });
+
     print('Selected Location: $selectedLocation');
+    widget.onSelectLocation(selectedLocation);
   }
 
   @override
