@@ -2,6 +2,7 @@ import 'package:cool_places/helpers/location_helper.dart';
 import 'package:cool_places/models/place.dart';
 import 'package:cool_places/screens/map_screen.dart';
 import 'package:flutter/material.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:location/location.dart';
 
 class LocationInput extends StatefulWidget {
@@ -35,15 +36,18 @@ class _LocationInputState extends State<LocationInput> {
     final location = PlaceLocation(
         latitude: locData.latitude!, longitude: locData.longitude!);
 
-    final selectedLocation = Navigator.of(context).push(MaterialPageRoute(
-        builder: ((context) => MapScreen(
-              initialLocation: location,
-              isSelecting: true,
-            ))));
+    final selectedLocation =
+        await Navigator.of(context).push<LatLng>(MaterialPageRoute(
+            builder: ((context) => MapScreen(
+                  initialLocation: location,
+                  isSelecting: true,
+                ))));
 
     if (selectedLocation == null) {
       return;
     }
+
+    print('Selected Location: $selectedLocation');
   }
 
   @override
