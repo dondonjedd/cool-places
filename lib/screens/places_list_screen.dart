@@ -1,5 +1,6 @@
 import 'package:cool_places/providers/prov_places.dart';
 import 'package:cool_places/screens/add_place_screen.dart';
+import 'package:cool_places/screens/single_place_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -38,8 +39,11 @@ class PlacesListScreen extends StatelessWidget {
                                           FileImage(coolPlaces.items[i].image),
                                     ),
                                     title: Text(coolPlaces.items[i].title),
-                                    subtitle: Text(coolPlaces.items[i].location!.address!),
-                                    onTap: () {},
+                                    subtitle: Text(
+                                        coolPlaces.items[i].location!.address!),
+                                    onTap: () => Navigator.of(context)
+                                        .pushNamed(SinglePlaceScreen.routeName,
+                                            arguments: coolPlaces.items[i].id),
                                   )),
                     )),
     );
